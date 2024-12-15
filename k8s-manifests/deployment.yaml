@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: healthcheckservice
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: healthcheckservice
+  template:
+    metadata:
+      labels:
+        app: healthcheckservice
+    spec:
+      containers:
+      - name: healthcheckservice
+        image: docker.io/frontez/healthcheckservice:latest
+        ports:
+        - containerPort: 8000
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10

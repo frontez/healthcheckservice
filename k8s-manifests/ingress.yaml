@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: healthcheckservice-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: arch.homework
+    http:
+      paths:
+      - path: /health
+        pathType: Prefix
+        backend:
+          service:
+            name: healthcheckservice
+            port:
+              number: 80
+      - path: /otusapp/frontez/*
+        pathType: Prefix
+        backend:
+          service:
+            name: healthcheckservice
+            port:
+              number: 80
+        rewrite:
+          path: /health
