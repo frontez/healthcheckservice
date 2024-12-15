@@ -3,7 +3,8 @@ kind: Ingress
 metadata:
   name: healthcheckservice-ingress
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite ^/otusapp/frontez/(.*) /health break;
 spec:
   ingressClassName: nginx
   rules:
@@ -17,12 +18,10 @@ spec:
             name: healthcheckservice
             port:
               number: 80
-      - path: /otusapp/frontez/*
+      - path: /otusapp/frontez
         pathType: Prefix
         backend:
           service:
             name: healthcheckservice
             port:
               number: 80
-        rewrite:
-          path: /health

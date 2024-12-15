@@ -1,5 +1,6 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS base
 ARG buildtime_variable=default_value
+ENV ASPNETCORE_HTTP_PORTS=8000
 WORKDIR /app
 EXPOSE 8000
 
